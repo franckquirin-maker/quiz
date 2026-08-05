@@ -29,7 +29,7 @@ class Answer
             'INSERT INTO answers (player_id, question_id, reponse_brute, reponse_normalisee, temps_ms, points_obtenus, correcte)
              VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
-        $stmt->execute([$playerId, $questionId, $reponseBrute, $reponseNormalisee, $tempsMs, $pointsObtenus, $correcte]);
+        $stmt->execute([$playerId, $questionId, $reponseBrute, $reponseNormalisee, $tempsMs, $pointsObtenus, (int) $correcte]);
 
         return self::findForPlayerAndQuestion($playerId, $questionId);
     }
