@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
-import { api } from '../api/client';
+import { api, mediaUrl } from '../api/client';
 import { useMercure } from '../hooks/useMercure';
 
 const JOIN_BASE_URL = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
@@ -111,9 +111,9 @@ export default function Host() {
         <div className="card question-card">
           <h2>Question {currentIndex + 1} / {quiz.questions.length}</h2>
           {currentQuestion.media_type === 'image' ? (
-            <img src={currentQuestion.media_url} alt="Indice" className="media" />
+            <img src={mediaUrl(currentQuestion.media_url)} alt="Indice" className="media" />
           ) : (
-            <video src={currentQuestion.media_url} className="media" autoPlay muted loop />
+            <video src={mediaUrl(currentQuestion.media_url)} className="media" autoPlay muted loop />
           )}
           <p className="texte">{currentQuestion.texte}</p>
           <p>{answeredCount} réponse(s) reçue(s)</p>

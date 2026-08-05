@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../api/client';
+import { api, mediaUrl } from '../api/client';
 import { useMercure } from '../hooks/useMercure';
 
 export default function Play() {
@@ -91,9 +91,9 @@ export default function Play() {
         <div className="card question-card">
           <div className="timer">{remaining}s</div>
           {question.media_type === 'image' ? (
-            <img src={question.media_url} alt="Indice" className="media" />
+            <img src={mediaUrl(question.media_url)} alt="Indice" className="media" />
           ) : (
-            <video src={question.media_url} className="media" autoPlay muted loop />
+            <video src={mediaUrl(question.media_url)} className="media" autoPlay muted loop />
           )}
           <p className="texte">{question.texte}</p>
           <form onSubmit={handleSubmit}>

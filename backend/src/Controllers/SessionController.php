@@ -68,7 +68,7 @@ class SessionController
 
         MercureService::publish($sessionId, 'question-started', [
             'question' => Question::publicView($question),
-            'started_at' => $session['question_started_at'],
+            'started_at' => str_replace(' ', 'T', $session['question_started_at']) . 'Z',
         ]);
 
         Response::json($session);

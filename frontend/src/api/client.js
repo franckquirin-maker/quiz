@@ -27,3 +27,14 @@ export const api = {
 };
 
 export const MERCURE_URL = import.meta.env.VITE_MERCURE_URL || 'http://localhost:3000/.well-known/mercure';
+
+/**
+ * Résout l'URL d'un média de question. Les chemins relatifs (ex. /media/q1.jpg)
+ * sont servis par le backend, pas par le frontend : il faut donc les préfixer
+ * avec l'origine de l'API. Les URLs absolues (http/https) sont laissées telles quelles.
+ */
+export function mediaUrl(path) {
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+}
