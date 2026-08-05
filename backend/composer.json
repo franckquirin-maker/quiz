@@ -1,0 +1,13 @@
+{
+    "name": "seminaire/quiz-series",
+    "description": "Backend API du quiz de séries pour séminaire",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
