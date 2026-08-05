@@ -6,8 +6,8 @@ class Request
 {
     public string $method;
     public string $path;
-    public array $query;
-    public array $body;
+    public array $query = [];
+    public array $body = [];
     public array $params = [];
 
     public function __construct()
