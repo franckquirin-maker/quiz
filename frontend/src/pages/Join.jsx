@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/client';
+import Header from '../components/Header';
 
 export default function Join() {
   const { pin: pinFromUrl } = useParams();
@@ -26,6 +27,7 @@ export default function Join() {
 
   return (
     <div className="page page-center">
+      <Header />
       <h1>Quiz Séries</h1>
       <p>Entrez le code PIN affiché à l'écran pour rejoindre la partie.</p>
       <form onSubmit={handleSubmit} className="card">

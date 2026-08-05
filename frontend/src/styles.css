@@ -1,5 +1,18 @@
 * { box-sizing: border-box; }
 
+:root {
+  --bg: #131110;
+  --surface: #1e1b17;
+  --surface-alt: #262119;
+  --border: #3a3226;
+  --gold: #c9a227;
+  --gold-light: #e3c565;
+  --ink: #14120f;
+  --text: #f3ede1;
+  --text-muted: #a89f8f;
+  --error: #ff6b6b;
+}
+
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
@@ -9,8 +22,10 @@ html {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #0f1116;
-  color: #f0f0f0;
+  background:
+    radial-gradient(ellipse at top, rgba(201, 162, 39, 0.08), transparent 60%),
+    var(--bg);
+  color: var(--text);
 }
 
 .page {
@@ -27,10 +42,40 @@ body {
 
 h1 {
   font-size: clamp(1.4rem, 5vw, 2rem);
+  letter-spacing: 0.02em;
 }
 
 h2 {
   font-size: clamp(1.1rem, 4vw, 1.5rem);
+}
+
+.brand-header {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-header--compact {
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.brand-logo {
+  max-height: 90px;
+  width: auto;
+}
+
+.brand-header--compact .brand-logo {
+  max-height: 48px;
+}
+
+.brand-fallback {
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  font-size: 1.1rem;
 }
 
 .page-center {
@@ -38,7 +83,8 @@ h2 {
 }
 
 .card {
-  background: #1a1d27;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem;
   margin: 1rem 0;
@@ -55,6 +101,7 @@ label {
   display: block;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 input, select, textarea {
@@ -63,23 +110,34 @@ input, select, textarea {
   padding: 0.75rem;
   margin-top: 0.3rem;
   border-radius: 8px;
-  border: 1px solid #333;
-  background: #0f1116;
-  color: #fff;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
   font-size: 1rem; /* >=16px empêche le zoom automatique au focus sur iOS Safari */
   min-height: 44px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.25);
 }
 
 button {
   padding: 0.75rem 1.2rem;
   border-radius: 8px;
   border: none;
-  background: #ff2d55;
-  color: #fff;
-  font-weight: 600;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
   font-size: 1rem;
   min-height: 44px;
   cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--gold-light);
 }
 
 /* Actions principales pleine largeur sur les écrans joueur (Rejoindre, Valider) : cible tactile plus grande */
@@ -89,25 +147,28 @@ button {
 }
 
 button:disabled {
-  background: #555;
+  background: #454138;
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
 .error {
-  color: #ff6b6b;
+  color: var(--error);
 }
 
 .muted {
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 
 .player-badge {
   display: inline-block;
-  background: #ff2d55;
+  background: var(--gold);
+  color: var(--ink);
   padding: 0.4rem 1rem;
   border-radius: 999px;
   font-weight: 700;
+  letter-spacing: 0.05em;
   margin-bottom: 1rem;
 }
 
@@ -115,6 +176,7 @@ button:disabled {
   font-size: clamp(1.5rem, 8vw, 2rem);
   font-weight: 700;
   text-align: center;
+  color: var(--gold-light);
 }
 
 .media {
@@ -122,6 +184,7 @@ button:disabled {
   max-height: 320px;
   object-fit: contain;
   border-radius: 8px;
+  border: 1px solid var(--border);
   margin: 1rem 0;
 }
 
@@ -135,13 +198,18 @@ button:disabled {
   flex-wrap: wrap;
   gap: 0.25rem 0.75rem;
   justify-content: space-between;
-  padding: 0.5rem;
-  border-bottom: 1px solid #2a2d3a;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .leaderboard li.me {
-  background: #2a1520;
+  background: rgba(201, 162, 39, 0.12);
   border-radius: 8px;
+}
+
+.leaderboard .score {
+  color: var(--gold-light);
+  font-weight: 700;
 }
 
 .host-waiting {
@@ -155,10 +223,18 @@ button:disabled {
 .qr-block svg {
   max-width: 100%;
   height: auto;
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--text);
 }
 
 .pin {
   font-size: 1.5rem;
+}
+
+.pin strong {
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
 }
 
 .players-list {
@@ -171,7 +247,8 @@ button:disabled {
 }
 
 .players-list li {
-  background: #1a1d27;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
   padding: 0.3rem 0.8rem;
   border-radius: 999px;
 }
@@ -212,5 +289,7 @@ button:disabled {
   font-size: 0.75rem;
   padding: 0.1rem 0.5rem;
   border-radius: 999px;
-  background: #333;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
 }

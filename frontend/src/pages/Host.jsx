@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { api, mediaUrl } from '../api/client';
 import { useMercure } from '../hooks/useMercure';
+import Header from '../components/Header';
 
 const JOIN_BASE_URL = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
 
@@ -84,6 +85,7 @@ export default function Host() {
 
   return (
     <div className="page">
+      <Header />
       <h1>{quiz.nom} — Écran hôte</h1>
 
       {phase === 'attente' && (

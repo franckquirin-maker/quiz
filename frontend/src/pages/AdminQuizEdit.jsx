@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../api/client';
+import Header from '../components/Header';
 
 const emptyForm = {
   id: null,
@@ -78,6 +79,7 @@ export default function AdminQuizEdit() {
 
   return (
     <div className="page">
+      <Header />
       <p><Link to="/admin">&larr; Retour aux quiz</Link></p>
       <h1>{quiz.nom}</h1>
 

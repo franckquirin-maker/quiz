@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api, mediaUrl } from '../api/client';
 import { useMercure } from '../hooks/useMercure';
+import Header from '../components/Header';
 
 export default function Play() {
   const { playerId } = useParams();
@@ -74,6 +75,7 @@ export default function Play() {
 
   return (
     <div className="page page-center">
+      <Header compact />
       <div className="player-badge">Joueur {player.numero}</div>
 
       {finished && leaderboard && (

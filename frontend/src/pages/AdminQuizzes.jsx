@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api/client';
+import Header from '../components/Header';
 
 export default function AdminQuizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -32,6 +33,7 @@ export default function AdminQuizzes() {
 
   return (
     <div className="page">
+      <Header />
       <h1>Administration des quiz</h1>
       {error && <p className="error">{error}</p>}
 
