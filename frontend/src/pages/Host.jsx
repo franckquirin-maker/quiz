@@ -112,10 +112,14 @@ export default function Host() {
       {phase === 'question' && currentQuestion && (
         <div className="card question-card">
           <h2>Question {currentIndex + 1} / {quiz.questions.length}</h2>
-          {currentQuestion.media_type === 'image' ? (
-            <img src={mediaUrl(currentQuestion.media_url)} alt="Indice" className="media" />
-          ) : (
-            <video src={mediaUrl(currentQuestion.media_url)} className="media" autoPlay muted loop />
+          {currentQuestion.media_type === 'image' && (
+            <img key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} alt="Indice" className="media" />
+          )}
+          {currentQuestion.media_type === 'video' && (
+            <video key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} className="media" autoPlay muted loop />
+          )}
+          {currentQuestion.media_type === 'audio' && (
+            <audio key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} autoPlay controls className="media-audio" />
           )}
           <p className="texte">{currentQuestion.texte}</p>
           <p>{answeredCount} réponse(s) reçue(s)</p>

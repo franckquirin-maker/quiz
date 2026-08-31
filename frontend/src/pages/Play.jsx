@@ -92,10 +92,14 @@ export default function Play() {
       {!finished && question && !result && (
         <div className="card question-card">
           <div className="timer">{remaining}s</div>
-          {question.media_type === 'image' ? (
+          {question.media_type === 'image' && (
             <img src={mediaUrl(question.media_url)} alt="Indice" className="media" />
-          ) : (
+          )}
+          {question.media_type === 'video' && (
             <video src={mediaUrl(question.media_url)} className="media" autoPlay muted loop />
+          )}
+          {question.media_type === 'audio' && (
+            <div className="audio-cue">🔊 Écoutez l'extrait diffusé sur l'écran principal</div>
           )}
           <p className="texte">{question.texte}</p>
           <form onSubmit={handleSubmit}>

@@ -188,6 +188,21 @@ button:disabled {
   margin: 1rem 0;
 }
 
+.media-audio {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.audio-cue {
+  margin: 1.5rem 0;
+  padding: 1.5rem 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--gold-light);
+  font-weight: 600;
+  text-align: center;
+}
+
 .leaderboard {
   list-style: none;
   padding: 0;

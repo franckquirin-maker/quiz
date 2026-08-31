@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS questions (
   id INT AUTO_INCREMENT PRIMARY KEY,
   quiz_id INT NOT NULL,
   media_url VARCHAR(500),
-  media_type ENUM('image','video') NOT NULL,
+  media_type ENUM('image','video','audio') NOT NULL,
   texte TEXT,
   reponse_normalisee VARCHAR(255) NOT NULL,
   reponse_affichee VARCHAR(255) NOT NULL,

@@ -47,7 +47,9 @@ Un quiz de démonstration ("Séries Cultes", 3 questions) est chargé automatiqu
 
 ## Upload de médias
 
-Les fichiers téléversés depuis l'admin sont validés côté serveur (type MIME réel, 20 Mo max pour images/vidéos JPEG/PNG/GIF/WebP/MP4/WebM/MOV) et stockés dans `backend/public/media/` avec un nom généré aléatoirement. Ce dossier est monté en volume Docker : sur un déploiement existant, assurez-vous qu'il est accessible en écriture par le conteneur (`chmod -R a+rwX backend/public/media` sur l'hôte si besoin).
+Les fichiers téléversés depuis l'admin sont validés côté serveur (type MIME réel, 20 Mo max pour images/vidéos/audio JPEG/PNG/GIF/WebP/MP4/WebM/MOV/MP3) et stockés dans `backend/public/media/` avec un nom généré aléatoirement. Ce dossier est monté en volume Docker : sur un déploiement existant, assurez-vous qu'il est accessible en écriture par le conteneur (`chmod -R a+rwX backend/public/media` sur l'hôte si besoin).
+
+Pour une question de type **audio (MP3)**, le fichier n'est joué que sur l'écran hôte (celui projeté en salle) : les téléphones des joueurs affichent un simple repère visuel, sans lecture audio, pour éviter tout décalage entre les appareils.
 
 ## Structure du projet
 

@@ -15,6 +15,8 @@ class MediaController
         'video/mp4' => 'mp4',
         'video/webm' => 'webm',
         'video/quicktime' => 'mov',
+        'audio/mpeg' => 'mp3',
+        'audio/mp3' => 'mp3',
     ];
 
     private const MAX_SIZE = 20 * 1024 * 1024; // 20 Mo
@@ -56,9 +58,15 @@ class MediaController
             return;
         }
 
+        $mediaType = match (true) {
+            str_starts_with($mimeType, 'video/') => 'video',
+            str_starts_with($mimeType, 'audio/') => 'audio',
+            default => 'image',
+        };
+
         Response::json([
             'media_url' => '/media/' . $filename,
-            'media_type' => str_starts_with($mimeType, 'video/') ? 'video' : 'image',
+            'media_type' => $mediaType,
         ], 201);
     }
 }

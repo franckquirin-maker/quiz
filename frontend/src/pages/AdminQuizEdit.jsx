@@ -141,19 +141,21 @@ export default function AdminQuizEdit() {
       <h2>{form.id ? 'Modifier la question' : 'Ajouter une question'}</h2>
       <form onSubmit={handleSubmit} className="card">
         <label>
-          Téléverser une image ou vidéo
-          <input type="file" accept="image/*,video/*" onChange={handleFileChange} disabled={uploading} />
+          Téléverser une image, vidéo ou audio (MP3)
+          <input type="file" accept="image/*,video/*,audio/*" onChange={handleFileChange} disabled={uploading} />
         </label>
         {uploading && <p className="muted">Téléversement en cours...</p>}
-        {form.media_url && (
-          form.media_type === 'image' ? (
-            <img src={mediaUrl(form.media_url)} alt="Aperçu" className="media" />
-          ) : (
-            <video src={mediaUrl(form.media_url)} className="media" controls />
-          )
+        {form.media_url && form.media_type === 'image' && (
+          <img src={mediaUrl(form.media_url)} alt="Aperçu" className="media" />
+        )}
+        {form.media_url && form.media_type === 'video' && (
+          <video src={mediaUrl(form.media_url)} className="media" controls />
+        )}
+        {form.media_url && form.media_type === 'audio' && (
+          <audio src={mediaUrl(form.media_url)} controls className="media-audio" />
         )}
         <label>
-          URL du média (image ou vidéo)
+          URL du média (image, vidéo ou audio)
           <input value={form.media_url} onChange={(e) => updateField('media_url', e.target.value)} required />
         </label>
         <label>
@@ -161,6 +163,7 @@ export default function AdminQuizEdit() {
           <select value={form.media_type} onChange={(e) => updateField('media_type', e.target.value)}>
             <option value="image">Image</option>
             <option value="video">Vidéo</option>
+            <option value="audio">Audio (MP3) — joué uniquement sur l'écran hôte</option>
           </select>
         </label>
         <label>

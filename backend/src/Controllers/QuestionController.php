@@ -80,8 +80,8 @@ class QuestionController
 
     private function validate(Request $request): ?string
     {
-        if (!in_array($request->input('media_type'), ['image', 'video'], true)) {
-            return "media_type doit être 'image' ou 'video'";
+        if (!in_array($request->input('media_type'), ['image', 'video', 'audio'], true)) {
+            return "media_type doit être 'image', 'video' ou 'audio'";
         }
         if (trim((string) $request->input('reponse', '')) === '') {
             return 'La réponse attendue est requise';
