@@ -19,6 +19,7 @@ RUN mkdir -p /var/www/html/public/media \
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 EXPOSE 80
 

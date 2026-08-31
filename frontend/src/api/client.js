@@ -29,6 +29,28 @@ export const api = {
 export const MERCURE_URL = import.meta.env.VITE_MERCURE_URL || 'http://localhost:3000/.well-known/mercure';
 
 /**
+ * Téléverse un fichier image/vidéo pour une question. Ne pas fixer le
+ * Content-Type ici : le navigateur doit poser lui-même le boundary multipart.
+ */
+export async function uploadMedia(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_URL}/api/media/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(data?.error || `Erreur ${response.status}`);
+  }
+
+  return data;
+}
+
+/**
  * Résout l'URL d'un média de question. Les chemins relatifs (ex. /media/q1.jpg)
  * sont servis par le backend, pas par le frontend : il faut donc les préfixer
  * avec l'origine de l'API. Les URLs absolues (http/https) sont laissées telles quelles.

@@ -48,7 +48,7 @@ class AnswerController
         $tempsEcouleMs = max(0, (int) round((microtime(true) - $startedAt->getTimestamp()) * 1000));
 
         $reponseNormalisee = Normalizer::normalize($reponseBrute);
-        $correcte = $reponseNormalisee !== '' && $reponseNormalisee === $question['reponse_normalisee'];
+        $correcte = $reponseNormalisee !== '' && in_array($reponseNormalisee, Question::acceptedAnswers($question), true);
 
         $points = ScoringService::compute(
             $correcte,

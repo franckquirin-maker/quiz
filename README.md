@@ -33,7 +33,7 @@ Un quiz de démonstration ("Séries Cultes", 3 questions) est chargé automatiqu
 ## Utilisation
 
 1. **Admin** (`/admin`) : créer un quiz, ajouter des questions (média + texte, réponse attendue, points max, durée).
-2. **Média des questions** : déposer les images/vidéos dans `backend/public/media/` et référencer `/media/mon-fichier.jpg` comme URL, ou utiliser une URL externe.
+2. **Média des questions** : téléverser directement une image/vidéo depuis le formulaire admin (bouton "Téléverser"), ou renseigner une URL externe manuellement.
 3. **Lancer une partie** : depuis `/admin`, cliquer sur "Lancer" pour un quiz → ouvre l'écran hôte (`/host/{quizId}`) avec le QR code et le code PIN à projeter.
 4. **Joueurs** : scanner le QR code (ou aller sur `/` et saisir le code PIN) → chaque joueur reçoit un numéro (001, 002, ...).
 5. **Déroulé** : l'hôte démarre chaque question, les joueurs voient le média + texte, ont le temps imparti pour saisir le nom de la série, puis l'hôte révèle la réponse et le classement avant de passer à la suivante.
@@ -41,8 +41,13 @@ Un quiz de démonstration ("Séries Cultes", 3 questions) est chargé automatiqu
 ## Règles de jeu
 
 - **Comparaison des réponses** : insensible à la casse, aux accents, aux apostrophes et à la ponctuation/espaces (ex. `Grey's Anatomy`, `greys anatomy` et `grey s anatomy` sont tous acceptés).
+- **Réponses alternatives** : dans le formulaire d'une question, un champ optionnel permet d'ajouter d'autres réponses acceptées (une par ligne, ex. `GOT` en plus de `Game of Thrones`).
 - **Score dégressif** : une réponse correcte immédiate rapporte `points_max`, une réponse juste avant l'expiration du temps rapporte 10% de `points_max` (dégressif linéaire). Le temps est mesuré côté serveur (horodatage du début de question), pas côté client, pour éviter la triche.
 - Chaque joueur ne peut répondre qu'une seule fois par question.
+
+## Upload de médias
+
+Les fichiers téléversés depuis l'admin sont validés côté serveur (type MIME réel, 20 Mo max pour images/vidéos JPEG/PNG/GIF/WebP/MP4/WebM/MOV) et stockés dans `backend/public/media/` avec un nom généré aléatoirement. Ce dossier est monté en volume Docker : sur un déploiement existant, assurez-vous qu'il est accessible en écriture par le conteneur (`chmod -R a+rwX backend/public/media` sur l'hôte si besoin).
 
 ## Structure du projet
 

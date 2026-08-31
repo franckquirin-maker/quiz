@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { api } from '../api/client';
+import { api, uploadMedia, mediaUrl } from '../api/client';
 import Header from '../components/Header';
 
 const emptyForm = {
@@ -9,16 +9,28 @@ const emptyForm = {
   media_type: 'image',
   texte: '',
   reponse: '',
+  alternatives: '',
   points_max: 1000,
   duree_secondes: 20,
   ordre: 1,
 };
+
+function parseAlternatives(json) {
+  if (!json) return [];
+  try {
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 export default function AdminQuizEdit() {
   const { quizId } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [error, setError] = useState(null);
   const [form, setForm] = useState(emptyForm);
+  const [uploading, setUploading] = useState(false);
 
   function load() {
     api.get(`/api/quizzes/${quizId}`).then(setQuiz).catch((e) => setError(e.message));
@@ -30,6 +42,22 @@ export default function AdminQuizEdit() {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
+  async function handleFileChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    setError(null);
+    try {
+      const result = await uploadMedia(file);
+      setForm((f) => ({ ...f, media_url: result.media_url, media_type: result.media_type }));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
@@ -39,6 +67,10 @@ export default function AdminQuizEdit() {
         media_type: form.media_type,
         texte: form.texte,
         reponse: form.reponse,
+        alternatives: form.alternatives
+          .split('\n')
+          .map((a) => a.trim())
+          .filter(Boolean),
         points_max: Number(form.points_max),
         duree_secondes: Number(form.duree_secondes),
         ordre: Number(form.ordre),
@@ -62,6 +94,7 @@ export default function AdminQuizEdit() {
       media_type: q.media_type,
       texte: q.texte || '',
       reponse: q.reponse_affichee,
+      alternatives: parseAlternatives(q.reponses_alternatives).join('\n'),
       points_max: q.points_max,
       duree_secondes: q.duree_secondes,
       ordre: q.ordre,
@@ -85,22 +118,40 @@ export default function AdminQuizEdit() {
 
       <h2>Questions</h2>
       <ol className="admin-question-list">
-        {quiz.questions.map((q) => (
-          <li key={q.id} className="card">
-            <div>
-              <strong>{q.reponse_affichee}</strong> — {q.points_max} pts / {q.duree_secondes}s
-              <div className="muted">{q.texte}</div>
-            </div>
-            <div className="actions">
-              <button onClick={() => editQuestion(q)}>Éditer</button>
-              <button onClick={() => deleteQuestion(q.id)}>Supprimer</button>
-            </div>
-          </li>
-        ))}
+        {quiz.questions.map((q) => {
+          const alternatives = parseAlternatives(q.reponses_alternatives);
+          return (
+            <li key={q.id} className="card">
+              <div>
+                <strong>{q.reponse_affichee}</strong> — {q.points_max} pts / {q.duree_secondes}s
+                <div className="muted">{q.texte}</div>
+                {alternatives.length > 0 && (
+                  <div className="muted">Alternatives acceptées : {alternatives.join(', ')}</div>
+                )}
+              </div>
+              <div className="actions">
+                <button onClick={() => editQuestion(q)}>Éditer</button>
+                <button onClick={() => deleteQuestion(q.id)}>Supprimer</button>
+              </div>
+            </li>
+          );
+        })}
       </ol>
 
       <h2>{form.id ? 'Modifier la question' : 'Ajouter une question'}</h2>
       <form onSubmit={handleSubmit} className="card">
+        <label>
+          Téléverser une image ou vidéo
+          <input type="file" accept="image/*,video/*" onChange={handleFileChange} disabled={uploading} />
+        </label>
+        {uploading && <p className="muted">Téléversement en cours...</p>}
+        {form.media_url && (
+          form.media_type === 'image' ? (
+            <img src={mediaUrl(form.media_url)} alt="Aperçu" className="media" />
+          ) : (
+            <video src={mediaUrl(form.media_url)} className="media" controls />
+          )
+        )}
         <label>
           URL du média (image ou vidéo)
           <input value={form.media_url} onChange={(e) => updateField('media_url', e.target.value)} required />
@@ -119,6 +170,14 @@ export default function AdminQuizEdit() {
         <label>
           Réponse attendue (nom de la série)
           <input value={form.reponse} onChange={(e) => updateField('reponse', e.target.value)} required />
+        </label>
+        <label>
+          Réponses alternatives acceptées (une par ligne, optionnel)
+          <textarea
+            value={form.alternatives}
+            onChange={(e) => updateField('alternatives', e.target.value)}
+            placeholder={'GOT\nGame of Thrones (VF)'}
+          />
         </label>
         <label>
           Points maximum

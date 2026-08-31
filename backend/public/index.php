@@ -2,7 +2,9 @@
 
 date_default_timezone_set('UTC');
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+define('APP_ROOT', dirname(__DIR__));
+
+require APP_ROOT . '/vendor/autoload.php';
 
 use App\Core\Request;
 use App\Core\Response;

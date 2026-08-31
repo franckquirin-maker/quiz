@@ -6,6 +6,7 @@ use App\Controllers\QuestionController;
 use App\Controllers\SessionController;
 use App\Controllers\PlayerController;
 use App\Controllers\AnswerController;
+use App\Controllers\MediaController;
 
 $router = new Router();
 
@@ -36,5 +37,8 @@ $router->get('/api/players/{id}', [$playerController, 'leaderboardEntryForPlayer
 
 $answerController = new AnswerController();
 $router->post('/api/answers', [$answerController, 'store']);
+
+$mediaController = new MediaController();
+$router->post('/api/media/upload', [$mediaController, 'upload']);
 
 return $router;
