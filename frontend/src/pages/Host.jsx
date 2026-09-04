@@ -116,7 +116,7 @@ export default function Host() {
             <img key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} alt="Indice" className="media" />
           )}
           {currentQuestion.media_type === 'video' && (
-            <video key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} className="media" autoPlay muted loop />
+            <video key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} className="media" autoPlay muted playsInline />
           )}
           {currentQuestion.media_type === 'audio' && (
             <audio key={currentQuestion.id} src={mediaUrl(currentQuestion.media_url)} autoPlay controls className="media-audio" />

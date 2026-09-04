@@ -96,7 +96,7 @@ export default function Play() {
             <img src={mediaUrl(question.media_url)} alt="Indice" className="media" />
           )}
           {question.media_type === 'video' && (
-            <video src={mediaUrl(question.media_url)} className="media" autoPlay muted loop />
+            <video src={mediaUrl(question.media_url)} className="media" autoPlay muted playsInline />
           )}
           {question.media_type === 'audio' && (
             <div className="audio-cue">🔊 Écoutez l'extrait diffusé sur l'écran principal</div>
